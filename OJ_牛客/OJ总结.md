@@ -64,3 +64,15 @@ for line in sys.stdin:
 ```
 
 ### 输入为字符串
+1. 对输入的字符串进行排序后输出。
+```python
+while True:
+    try:
+        n = input()
+        strList = list(map(str, input().split()))
+        strList.sort()
+        print(' '.joint(strList))
+    except:
+        break
+```
+
