@@ -75,4 +75,23 @@ while True:
     except:
         break
 ```
-
+2. 对输入的字符串进行排序后输出。多个测试用例，每个测试用例一行。每行用空格隔开，有n个字符。
+```python
+while True:
+    try:
+        arr = list(map(str, input().split()))
+        arr.sort()
+        print(' '.join(arr))
+    except:
+        break
+```
+3. 对输入的字符串进行排序后输出。多个测试用例，每个测试用例一行。每行通过，隔开，有n个字符。
+```python
+while True:
+    try:
+        a = input().split(",")
+        a.sort()
+        print(",".join(a))
+    except:
+        break
+```
