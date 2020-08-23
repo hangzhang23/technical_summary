@@ -1,4 +1,4 @@
-## 总结性归纳下牛客和塞码网出现的OJ输入和输出情况。
+## 总结性归纳下牛客和塞码网出现的OJ输入和输出代码样例。
 ### 输入为int
 1. ```A+B```输入包括两个正整数a和b，输入数据包含多组。
 ```python
@@ -94,4 +94,13 @@ while True:
         print(",".join(a))
     except:
         break
+```
+
+### 其他问题
+1. 输入一个字符串，拆分成单个字符的列表。
+```python
+import sys
+str_input = sys.stdin.readline().split()
+strList = [i for i in str_input[0]]
+print(strList)
 ```
