@@ -1,5 +1,5 @@
 ### 总结性归纳下牛客和塞码网出现的OJ输入和输出情况。
-1. ```A+B```
+1. ```A+B```输入包括两个正整数a和b，输入数据包含多组。
 ```python
 import sys
 line = sys.stdin.readlines()
@@ -28,7 +28,7 @@ while True:
         print(a+b)
 
 ```
-4.输入包括多组数据。每组数据一行，每行的第一个整数为整数的个数n，n为0得时候结束输入。接下来的n个正整数，即需要求和的每个正整数。
+4.（计算一系列数的和）输入包括多组数据。每组数据一行，每行的第一个整数为整数的个数n，n为0得时候结束输入。接下来的n个正整数，即需要求和的每个正整数。
 ```python
 while True:
     a = [int(each) for each in input().split()]
@@ -36,14 +36,14 @@ while True:
         break
     print(sum(a[1:]))
 ```
-5.输入的第一行包括一个正整数t，表示数据组数。接下来的t行，每行一组数据。每行的第一个整数为整数的个数n，接下来的n个正整数，即需要求和的每个正整数。
+5.（计算一系列数的和）输入的第一行包括一个正整数t，表示数据组数。接下来的t行，每行一组数据。每行的第一个整数为整数的个数n，接下来的n个正整数，即需要求和的每个正整数。
 ```python
 n = int(input())
 for _ in range(n):
     numList = list(map(int, input().split()))
     print(sum(numList[1:]))
 ```
-6.输入数据有多组，每行表示一组输入数据。每行的第一个整数为整数的个数n。接下来的n个正整数，即需要求和的每个正整数。
+6.（计算一系列数的和）输入数据有多组，每行表示一组输入数据。每行的第一个整数为整数的个数n。接下来的n个正整数，即需要求和的每个正整数。
 ```python
 import sys
 lines = sys.stdin.readlines()
@@ -51,7 +51,7 @@ for line in lines:
     numList = list(map(int, line.split()))
     print(sum(numList[1:]))
 ```
-7.输入数据有多组，每行表示一组输入数据。每行不定有n个整数，空格隔开。
+7.（计算一系列数的和）输入数据有多组，每行表示一组输入数据。每行不定有n个整数，空格隔开。
 ```python
 import sys
 for line in sys.stdin:
