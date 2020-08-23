@@ -36,3 +36,28 @@ while True:
         break
     print(sum(a[1:]))
 ```
+5.输入的第一行包括一个正整数t，表示数据组数。接下来的t行，每行一组数据。每行的第一个整数为整数的个数n，接下来的n个正整数，即需要求和的每个正整数。
+```python
+n = int(input())
+for _ in range(n):
+    numList = list(map(int, input().split()))
+    print(sum(numList[1:]))
+```
+6.输入数据有多组，每行表示一组输入数据。每行的第一个整数为整数的个数n。接下来的n个正整数，即需要求和的每个正整数。
+```python
+import sys
+lines = sys.stdin.readlines()
+for line in lines:
+    numList = list(map(int, line.split()))
+    print(sum(numList[1:]))
+```
+7.输入数据有多组，每行表示一组输入数据。每行不定有n个整数，空格隔开。
+```python
+import sys
+for line in sys.stdin:
+    a  = line.split()
+    ret = 0
+    for i in range(len(a)):
+        ret += int(a[i])
+    print(ret)
+```
