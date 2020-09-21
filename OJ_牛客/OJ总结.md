@@ -105,7 +105,7 @@ strList = [i for i in str_input[0]]
 print(strList)
 ```
 
-2.第一行表示接下来要输入几组数据
+2. 第一行表示接下来要输入几组数据
 ```python
 count = list(map(int, input().split()))
 queue = []
