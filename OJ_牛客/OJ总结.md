@@ -104,3 +104,11 @@ str_input = sys.stdin.readline().split()
 strList = [i for i in str_input[0]]
 print(strList)
 ```
+
+2.第一行表示接下来要输入几组数据
+```python
+count = list(map(int, input().split()))
+queue = []
+for _ in range(count[0]):
+    queue.append(list(map(int, input().split())))
+```
