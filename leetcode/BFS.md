@@ -62,3 +62,49 @@ class Solution:
                 res.append(level)
         return res
 ```
+#### LC752.打开密码锁
+这道题的要求是找到从“0000”开始到target的所有路径，以穷举的思路看，从第一位开始每一位都对应了下面一位的9种组合（多叉树），所以这道题也是一个典型的可以用BFS来做的题。跟穷举多的条件是有一个deadlist是要绕过去的，所以整个拨动过程就是一个绕路障的找路径问题。所以用BFS框架来做，同时写两个“+1”和“-1”的方法用在BFS的for循环里（遍历queue），并且用一个set来记录已经访问过的点，防止陷入死循环。
+```python
+class Solution:
+    def openLock(self, deadends: List[str], target: str) -> int:
+        def plusone(s:str, j :int) -> str:
+            ch = list(s)
+            if ch[j] == '9':
+                ch[j] = '0'
+            else:
+                ch[j] = str(int(ch[j])+1)
+            return "".join(ch)
+        
+        def minusone(s:str, j :int) -> str:
+            ch = list(s)
+            if ch[j] == '0':
+                ch[j] = '9'
+            else:
+                ch[j] = str(int(ch[j])-1)
+            return "".join(ch)
+       
+        deads = set(deadends)
+        visited = set()
+        queue = []
+        step = 0
+        queue.append(("0000",step))
+        visited.add("0000")
+        while queue:
+            cur,step = queue.pop(0)
+            if cur in deads:
+                continue
+            if cur == target:
+                return step
+            
+            for j in range(4):
+                up = plusone(cur,j)
+                if up not in visited:
+                    queue.append((up,step+1))
+                    visited.add(up)
+
+                down = minusone(cur,j)
+                if down not in visited:
+                    queue.append((down,step+1))
+                    visited.add(down)
+        return -1
+```
