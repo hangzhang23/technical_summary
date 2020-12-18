@@ -109,3 +109,29 @@ class Solution:
                     visited.add(down)
         return -1
 ```
+#### LC127.单词接龙
+这里把树换成了单词和词典，beginword和endword相当于start和target，而树则是wordlist。而要求每次更换其中一个字母，并且每个新单词都要在wordlist中，以求最近的转换距离，符合bfs的使用场景。这里wordlist就是一个提供的用来防止走回头路的数组，在这里的处理方法是每次访问过一次就从wordlist中删除掉这个单词。另一个难点在于这个遍历结构：
+```python
+for i in range(len(word)):
+    for c in 'abcdefghijklmnopqrstuvwxyz':
+        newWord = word[:i] + c + word[i+1:]
+```
+这里是用来对word的每个字符进行转换。
+```python
+class Solution:
+    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+        from collections import deque
+        wordset = set(wordList)
+        queue = deque()
+        queue.append((beginWord, 1))
+        while queue:
+            word, length = queue.popleft()
+            if word == endWord: return length
+            for i in range(len(word)):
+                for c in 'abcdefghijklmnopqrstuvwxyz':
+                    newWord = word[:i] + c + word[i+1:]
+                    if newWord in wordset and newWord != word:
+                        wordset.remove(newWord)
+                        queue.append((newWord, length+1))
+        return 0
+```
