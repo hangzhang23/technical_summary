@@ -32,3 +32,32 @@ def minDepth(root):
             q.append([root.right, depth+1])
     return 0
 ```
+#### LC429.N叉树的层次遍历
+已经提出来层次遍历了，所以这道题是非常典型的用BFS的题目。完全可以套用BFS的框架来进行默写。
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def levelOrder(self, root: 'Node') -> List[List[int]]:
+        from collections import deque
+        res = []
+        q = deque([root])
+        while q:
+            level = []
+            size = len(q)
+            for _ in range(size):
+                node = q.popleft()
+                if not node: continue
+                level.append(node.val)
+                for child in node.children:
+                    q.append(child)
+            if level:
+                res.append(level)
+        return res
+```
