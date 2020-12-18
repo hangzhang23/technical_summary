@@ -135,3 +135,33 @@ class Solution:
                         queue.append((newWord, length+1))
         return 0
 ```
+#### LC863.二叉树中所有距离为K的节点
+这里题目的要求是树上某一点距离为k的所有节点，很容易想到可以用BFS来做。不过跟752的差别是，这里的节点不是顶点，是树上的点，则需要构建一个各个节点的邻接矩阵，然后从target开始去bfs。  
+邻接矩阵的建立要用DFS来做。
+```python
+class Solution:
+    def distanceK(self, root: TreeNode, target: TreeNode, K: int) -> List[int]:
+        from collections import defaultdict, deque
+        conn = defaultdict(list)
+        # dfs
+        def connect_graph(father, child):
+            if father and child:
+                conn[father.val].append(child.val)
+                conn[child.val].append(father.val)
+            if child.left: connect_graph(child, child.left)
+            if child.right: connect_graph(child, child.right)
+        connect_graph(None, root)
+        # bfs
+        q = deque()
+        q.append(target.val)
+        visited = set([target.val])
+        for k in range(K):
+            size = len(q)
+            for i in range(size):
+                node = q.popleft()
+                for j in conn[node]:
+                    if j not in visited:
+                        q.append(j)
+                        visited.add(j)
+        return list(q)
+```
