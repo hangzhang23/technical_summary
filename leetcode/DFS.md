@@ -14,7 +14,8 @@ DFS会用到递归和stack。
     - （还原标记（回溯））
 
 #### 剑指offer 55-I.二叉树深度
-非常典型的一个用dfs可以写很简短的一道题，递归就完成了。
+非常典型的一个用dfs可以写很简短的一道题，递归就完成了。  
+判断是否还是节点，然后返回递归中的较大一个。
 ```python
 class Solution:
     def maxDepth(self, root: TreeNode) -> int:
