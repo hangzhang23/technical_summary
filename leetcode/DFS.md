@@ -38,3 +38,31 @@ class Solution:
         if not root: return 0
         return 1+max(self.height(root.left),self.height(root.right))
 ```
+#### LC98.验证二叉搜索树
+搜索树的特点是
+- 节点的左子树只包含小于当前节点的数。
+- 节点的右子树只包含大于当前节点的数。
+- 所有左子树和右子树自身必须也是二叉搜索树。  
+则在这里用用一个递归来做搜索。
+```python
+class Solution:
+    def isValidBST(self, root: TreeNode) -> bool:
+        """
+        递归法，用二叉搜索树的性质，根节点的左子树的值都要小于根节点，而右子树要大于根节点。则递归函数设计为一个有值域的判断函数，当超过这个值域则不是二叉搜索树。
+        而在root的左子树中要符合上界为root.val，而root右子树的下界为root.val.
+        """
+        def helper(node, lower = float('-inf'), upper = float('inf')):
+            if not node:
+                return True
+            
+            val = node.val
+            if val <= lower or val >= upper:
+                return False
+            if not helper(node.right, val, upper):
+                return False
+            if not helper(node.left, lower, val):
+                return False
+            return True
+        
+        return helper(root)
+```
