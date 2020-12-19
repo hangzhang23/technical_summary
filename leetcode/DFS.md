@@ -22,3 +22,19 @@ class Solution:
         if not root: return 0
         return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
 ```
+#### 剑指offer 55-II.平衡二叉树
+平衡二叉树的定义是任意节点的左右子节点深度不大于1。  
+这里的第一想法还是像上一题一样，先建立一个depth来求每个节点的深度，然后用递归去判断每个节点的左右子树情况。
+
+```python
+class Solution:
+    def isBalanced(self, root: TreeNode) -> bool:
+        if not root: return True
+        if (abs(self.height(root.left) - self.height(root.right)) > 1):
+            return False
+        else:
+            return self.isBalanced(root.left) and self.isBalanced(root.right)
+    def height(self,root):
+        if not root: return 0
+        return 1+max(self.height(root.left),self.height(root.right))
+```
