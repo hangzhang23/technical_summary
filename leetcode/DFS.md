@@ -66,3 +66,32 @@ class Solution:
         
         return helper(root)
 ```
+
+#### LC773.图像渲染
+这道题用dfs可做。
+```python
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, newColor: int) -> List[List[int]]:
+        oldColor = image[sr][sc]
+        rows, cols = len(image), len(image[0])
+
+        def dfs(row, col):
+            if 0 <= row < rows and 0 <= col < cols and image[row][col] == oldColor:
+                if image[row][col] == -1: return
+
+                image[row][col] = -1
+
+                dfs(row - 1, col)
+                dfs(row + 1, col)
+                dfs(row, col - 1)
+                dfs(row, col + 1)
+
+        dfs(sr, sc)
+
+        for row in range(rows):
+            for col in range(cols):
+                if image[row][col] == -1:
+                    image[row][col] = newColor
+
+        return image
+```
