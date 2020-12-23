@@ -95,3 +95,32 @@ class Solution:
 
         return image
 ```
+
+#### LC22.括号生成
+这里用dfs框架来做，如果按照[回溯](https://github.com/hangzhang23/technical_summary/blob/master/leetcode/%E5%9B%9E%E6%BA%AF%E6%B3%95.md)框架来做可以参考另一个md文件中的写法。
+```python
+class Solution:
+    def generateParenthesis(self, n: int) -> List[str]:
+        res = []
+        cur_str = ''
+
+        def dfs(cur_str, left, right):
+            """
+            :param cur_str: 从根结点到叶子结点的路径字符串
+            :param left: 左括号还可以使用的个数
+            :param right: 右括号还可以使用的个数
+            :return:
+            """
+            if left == 0 and right == 0:
+                res.append(cur_str)
+                return
+            if right < left:
+                return
+            if left > 0:
+                dfs(cur_str + '(', left - 1, right)
+            if right > 0:
+                dfs(cur_str + ')', left, right - 1)
+
+        dfs(cur_str, n, n)
+        return res
+```
