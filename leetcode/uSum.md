@@ -68,7 +68,7 @@ def twoSum(nums, target):
 #### LC15.三数之和
 如果将两数之和的方法搞明白，其实三数之和的方法就可以用两数之和来改进。  
 在确定了第一个数之后，三数之和=num1+两数之和（target-num1）。则用穷举的方法来对nums中的每个数进行查询，并且跳过重复出现的数字。  
-**时间复杂度：O(NlogN)**  
+**时间复杂度：O($N^2$)**  
 ```python
 class Solution:
     def twoSum(self, nums, start, target):
@@ -105,4 +105,57 @@ class Solution:
             i += 1
         return res
         
+```
+
+#### LC18.四数之和
+参考三数之和的方法，四数之和=nums1+三数之和（target-nums1）。
+**时间复杂度：O($N^3$)**  
+```python
+class Solution:
+    def twoSum(self, nums, start, target):
+        l, r = start, len(nums) - 1
+        res = []
+        while l < r:
+            sum_two = nums[l] + nums[r]
+            left, right = nums[l], nums[r]
+            if sum_two < target:
+                while l < r and nums[l] == left:
+                    l += 1
+            elif sum_two > target:
+                while l < r and nums[r] == right:
+                    r -= 1
+            else:
+                res.append([left, right])
+                while l < r and nums[l] == left: 
+                    l += 1
+                while l < r and nums[r] == right:
+                    r -= 1
+        return res
+    
+    def threeSum(self, nums, start, target):
+        i, n = start, len(nums)
+        res = []
+        while i < n:
+            tup = self.twoSum(nums, i + 1, target - nums[i])
+            for t in tup:
+                t.append(nums[i])
+                res.append(t)
+            while i < n - 1 and nums[i] == nums[i + 1]:
+                i += 1
+            i += 1
+        return res
+    
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        nums.sort()
+        i, n = 0, len(nums)
+        res = []
+        while i < n:
+            tup = self.threeSum(nums, i + 1, target - nums[i])
+            for t in tup:
+                t.append(nums[i])
+                res.append(t)
+            while i < n - 1 and nums[i] == nums[i + 1]:
+                i += 1
+            i += 1
+        return res
 ```
