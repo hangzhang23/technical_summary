@@ -40,7 +40,7 @@ class Solution:
             if j is not None and i != j:
                 return [i, j]
 ```
-**附加：**求和为sum的所有二元组合。
+** 附加：** 求和为sum的所有二元组合。
 ```python
 def twoSum(nums, target):
     nums.sort()
