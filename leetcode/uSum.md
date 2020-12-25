@@ -40,3 +40,26 @@ class Solution:
             if j is not None and i != j:
                 return [i, j]
 ```
+**附加：**求和为sum的所有二元组合。
+```python
+def twoSum(nums, target):
+    nums.sort()
+    l, r = 0, len(nums) - 1
+    res = []
+    while l < r:
+        sum_two = nums[l] + nums[r]
+        left, right = nums[l], nums[r]
+        if sum_two < target:
+            while l < r and nums[l] == left:
+                l += 1
+        elif sum_two > target:
+            while l < r and nums[r] == right:
+                r -= 1
+        else:
+            res.append([left, right])
+            while l < r and nums[l] == left: 
+                l += 1
+            while l < r and nums[r] == right:
+                r -= 1
+    return res
+```
