@@ -168,4 +168,4 @@ class Solution:
         visited = {}
         return dfs(head)
 ```
-同样这道题也有[bfs做法](https://github.com/hangzhang23/technical_summary/master/leetcode/BFS.md).
+同样这道题也有[bfs做法](https://github.com/hangzhang23/technical_summary/blob/master/leetcode/BFS.md).
