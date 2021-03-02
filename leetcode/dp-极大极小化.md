@@ -1,4 +1,4 @@
-### 极大极小化
+## 极大极小化
 #### LC486.预言赢家
 这道题用递归是会超时的，所以用动态规划，动态规划中规定dp[i][j]是从数组中第i位到第j位的当前玩家与另一玩家的得分差的最大值（这是一个比较特别的点）。而其中这个二维dp数组中，长宽是一样的，而正对角线中表示的是从i到i位的得分差最大值。
 首先确定对角线上的值，这个是等于nums对应位的值的，因为就剩一位了。
@@ -46,3 +46,42 @@ class Solution:
                 dp[i][j] = max(stones[j] - stones[i] - dp[i+1][j], stones[j - 1] - (stones[i - 1] if i > 0 else 0) - dp[i][j - 1])
         return dp[0][N - 1]
 ```
+
+----
+## 前缀和
+
+#### LC303.区域和检索-数组不可变
+```python
+class NumArray:
+
+    def __init__(self, nums: List[int]):
+        if not nums: return
+        n=len(nums)
+        self.preSum = [0]*(n+1)
+        for i in range(n):
+            self.preSum[i+1] = nums[i]+self.preSum[i]
+
+
+    def sumRange(self, i: int, j: int) -> int:
+        return self.preSum[j+1] - self.preSum[i]
+```
+
+#### LC304.二维区域和检索-矩阵不可变
+
+```python
+class NumMatrix:
+
+    def __init__(self, matrix: List[List[int]]):
+        if not matrix or not matrix[0]:
+            M, N = 0, 0
+        else:
+            M, N = len(matrix), len(matrix[0])
+        self.preSum = [[0] * (N + 1) for _ in range(M + 1)]
+        for i in range(M):
+            for j in range(N):
+                self.preSum[i + 1][j + 1] = self.preSum[i][j + 1] + self.preSum[i + 1][j]  - self.preSum[i][j] + matrix[i][j]
+
+    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:
+        return self.preSum[row2 + 1][col2 + 1] - self.preSum[row2 + 1][col1] - self.preSum[row1][col2 + 1] + self.preSum[row1][col1]
+```
+
