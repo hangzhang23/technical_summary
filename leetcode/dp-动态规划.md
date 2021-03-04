@@ -164,7 +164,7 @@ class Solution:
 最长递增子序列也是一道典型dp题目。  
 状态定义：**dp[i]表示nums[i]结尾时最长递增子序列的长度。**  
 base case：dp[i] = 1, 因为每个字母结尾最短也是1。  
-用数学归纳思想来推导状态转移方程：找到最后一个字母的最长子序列，肯定是倒数第二个字母中截尾比nums[-1]小的子序列，然后把nums[-1]接到最后，形成一个新的递增子序列长度并+1，而且比nums[-1]小的子序列中最长的那个...由此类推，我们可以用一个循环来更新dp数组。
+用数学归纳思想来推导状态转移方程：找到最后一个数字的最长子序列，肯定是倒数第二个数字中截尾比nums[-1]小的子序列，然后把nums[-1]接到最后，形成一个新的递增子序列长度并+1，而且比nums[-1]小的子序列中最长的那个...由此类推，我们可以用一个循环来更新dp数组。
 ```python
 for j in len(i):
     if nums[j] < nums[i]：
@@ -182,6 +182,28 @@ class Solution:
                     dp[i] = max(dp[i], dp[j]+1)
         return max(dp)
 ```
+
+#### LC354.俄罗斯套娃信封问题（hard）
+这道题算是最长递增子序列的一个变种问题，但是由于合法的嵌套必须要长宽都大于才行，而LIS只能在数组里找。
+所以在做LIS算法之前，需要做一个排序。而这里排序的tricks就是先对w进行升序排序，如果出现相同的情况，则对h做降序排序。
+然后对h组成的数组做LIS就是最后的答案。  
+算法的理解重点：对于w相同的数对，h做降序排列时，才能保证只会选择一个计入LIS。
+```python
+class Solution:
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        if not envelopes:
+            return 0
+        N = len(envelopes)
+        envelopes.sort(key=lambda x: (x[0], -x[1]))
+        res = 0
+        dp = [1] * N
+        for i in range(N):
+            for j in range(i):
+                if envelopes[j][1] < envelopes[i][1]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+        return max(dp)
+```
+
 
 #### LC53.最大子数组和
 子数组和通常会考虑到滑动窗口，但是这道题里有负数，所以不能用滑动窗口，因为移动左右指针的判断条件不明确，所以这里用dp来做。  
