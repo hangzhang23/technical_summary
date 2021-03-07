@@ -72,3 +72,23 @@ class Solution:
                 end = farthest
         return jumps
 ```
+
+#### LC5698.构成特定和需要添加的最少元素
+典型贪心法，先求数组和，然后用target减去sum得到残差的绝对值，这时候残差有三种情况：
+- 如果残差=0，则不用添加元素
+- 如果残差小于limit，也好说，添加一个小于limit的就行。
+- 如果残差大于limit，用贪心策略来做，直接上limit（一个或者多个，也就是求余数）。
+    - 假如能整除，则需要添加的个数就是商。
+    - 不能整除，则等于商+1.
+```python
+class Solution:
+    def minElements(self, nums: List[int], limit: int, goal: int) -> int:
+        total_sum = sum(nums)
+        delta = abs(total_sum - goal)
+        if delta == 0: return 0
+        elif delta <= limit: return 1
+        else:
+            if delta % limit == 0: return delta // limit
+            else: return delta // limit + 1
+
+```
