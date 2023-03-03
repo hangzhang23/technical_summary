@@ -1,4 +1,6 @@
 1. 概念
+
+
 ● 数据库（database）：数据库是以某种有组织的方式储存的数据集合。
 ● 表（table）：某种特定类型数据的结构化清单。
 ● 模式（schema）：关于数据库和表的布局及特性的信息。
@@ -13,16 +15,22 @@
 ● 拼接（concatenate）：将值联结到一起构成单个值。
 ● 查询（query）：任何SQL语句都是查询。但此术语一般只SELECT语句。
 ● 可伸缩（scale）：能够适应不断增加的工作量而不失败。设计良好的数据库或者应用程序称为可伸缩性好。
+
+
 2. 检索数据
+
+
 sql最基本的操作，以select为开头，from选择列表。
-'''sql
+
+```sql
 select 列 from 表;
 select 列, 列, 列 from 表;
 select * from 表;
 select distinct 列 from 表;
 select 列 from 表 limit 值;
 select 列 from 表 limit 值 offset 值;
-'''
+```
+
 注：
 ● select * 表示选择所有数据
 ● distince col 表示只返回不同的行，相同则选一个。
