@@ -159,6 +159,7 @@ SUM()	和
 9. 分组数据
 
 主要是groupby的使用，注意结果会按照group by指定列进行分组，在使用得时候group by的优先级高于其他。
+
 ```sql
 SELECT 列,COUNT(列) AS 列名
 FROM 表
@@ -178,6 +179,7 @@ HAVING COUNT(*) >= 2;
 
 - 注意where和having的差别，where在分组前规律，having在分组后过滤。
 
+```sql
 select字句顺序	说明	是否必须使用
 select	要返回的列或表达式	yes
 from	从中检索数据的表	尽在表中选择数据时使用
@@ -186,10 +188,12 @@ group by	分组说明	仅在按组计算聚集时使用
 having	组级过滤	no
 order by	输出排序顺序	no
 limit	限制	no
+```
 
 10. 使用子查询
 
 子查询的作用就是在sql的查询语句中插入额外的查询语句
+
 ```sql
 SELECT cust_id FROM Orders
 WHERE order_num IN (SELECT order_num FROM OrderItems WHERE prod_id = 'RGANO1');--作为子查询的SELECT语句只能查询单列。
@@ -201,10 +205,12 @@ SELECT cust_name,
        WHERE Orders.cust_id = Customers.cust_id) AS orders
 FROM Customers
 ORDER BY cust_name --为了避免产生冲突，必须采用完全限定列名。
+```
 
 11. 联结表
 
 联结表出现from两个表的情况，使用where做链接，也可以用join链接
+
 ```sql
 SELECT vend_name,prod_name,prod_price
 FROM Vendors,Products
@@ -214,6 +220,7 @@ SELECT vend_name,prod_name,prod_price
 FROM Vendors
 INNER JOIN Products ON Vendors.vend_id = Products.vend.id;--等值联结也叫内联结(inner join)，可以通过不同的语法明确联结的类型。
 ```
+
 - where后面的过滤语句就可以在两个表中分别选择列；
 - inner join为内连接。
 
@@ -221,6 +228,7 @@ INNER JOIN Products ON Vendors.vend_id = Products.vend.id;--等值联结也叫�
 
 在需要从两个表中提取不同的列做下一步运算得时候，可以用高级联结。主要也是用AS来对不同的表命名。
 --自联结
+
 ```sql
 SELECT c1.cust_id,c1.cust_name,c1.cust_contact
 FROM Customers AS c1, Customers AS c2
@@ -230,6 +238,7 @@ AND c2.cust_contact = 'Jim Jones'--别名的好处在于在SELECT语句中可以
 
 --外联结
 --左外连接关键字是LEFT OUTER JOIN 或LEFT JOIN(还是不建议省略outer，可读性不强)。左外连接查询是以左边的表为基准，去匹配要连接的表，不管是否匹配条件都会以基准表的条数返回结果(这里明显不同于内连接)，匹配到的数据就显示匹配到的数据，没有匹配条件的数据就显示为null。右联结相似。全连接(full join)就是返回目标表的所有数据，有匹配的就显示，没有匹配的就为null。MYSQL里面没有全联结，可以对左外连和右外联做union实现相同的效果。
+
 ```sql
 SELECT td.dept_id,td.dept_name,te.emp_name  
 FROM tb_dept td
