@@ -110,17 +110,28 @@ SELECT 列,列 FROM 表 WHERE NOT 列 LIKE '[JM]%'; --同上效果一样。
 _	仅代替一个字符
 [charlist]	字符列表中的任何单一字符
 [^charlist]或[!charlist]	不在字符列中的任何单一字符
+
+
 7. 创建计算字段
+
 字段这个词也是在SQL中出现，用以指代列，所以计算字段其实就是列计算，而这一步出现在select部分。根据数据库不同，可用+（access，SQL server），||（DB2，Oracle，SQLlite，PostgreSQL，Open Office Base）或者concat（MySQL和MariaDB）来进行字段拼接。
+
+``sql
 SELECT 列 + '(' 列 + ')' FROM 表; --返回列(列)，+可以用||代替。
 SELECT Concat(列,'(', 列 , ')') FROM 表; --Mysql是这样的。这样和上面会填充空格。
 SELECT RTRIM(列) + '(' RTRUM(列) + ')' FROM 表; -- 这样才会正确返回格式化数据。RTRIM()函数会取掉右边所有的空格。TRIM(),LTRIM()。
 SELECT RTRIM(列) + '(' RTRUM(列) + ')' AS 别名 FROM 表; --使用别名（alias）。这样就可以在客户端引用它。别名也叫导出列。
 SELECT 列，列，列*列 AS 列 FROM 表 WHERE 列 = 值; --AS的列是计算之后的,也会被显示出来。
+```
+
 8. 使用函数处理数据
+
 SQL自带的一部分函数，可在任何需要进行函数操作的地方使用。
+```sql
 SELECT 列,UPPER(列) AS 列 FROM 表;--处理文本
 SELECT 列 FROM 表 WHERE YEAR(列) = 2020;--指定时间
+```
+
 	函数	说明
 文本处理函数	LEFT()	返回字符串左边字符
 LENGTH()	返回字符串长度
@@ -143,8 +154,12 @@ COUNT()	行数
 MAX()	最大值
 MIN()	最小值
 SUM()	和
+
+
 9. 分组数据
+
 主要是groupby的使用，注意结果会按照group by指定列进行分组，在使用得时候group by的优先级高于其他。
+```sql
 SELECT 列,COUNT(列) AS 列名
 FROM 表
 GROUP BY 列;
@@ -159,7 +174,10 @@ FROM 表
 WHERE 列 >= 4
 GROUP BY 列
 HAVING COUNT(*) >= 2;
-● 注意where和having的差别，where在分组前规律，having在分组后过滤。
+```
+
+- 注意where和having的差别，where在分组前规律，having在分组后过滤。
+
 select字句顺序	说明	是否必须使用
 select	要返回的列或表达式	yes
 from	从中检索数据的表	尽在表中选择数据时使用
@@ -168,8 +186,11 @@ group by	分组说明	仅在按组计算聚集时使用
 having	组级过滤	no
 order by	输出排序顺序	no
 limit	限制	no
+
 10. 使用子查询
+
 子查询的作用就是在sql的查询语句中插入额外的查询语句
+```sql
 SELECT cust_id FROM Orders
 WHERE order_num IN (SELECT order_num FROM OrderItems WHERE prod_id = 'RGANO1');--作为子查询的SELECT语句只能查询单列。
 
@@ -180,9 +201,11 @@ SELECT cust_name,
        WHERE Orders.cust_id = Customers.cust_id) AS orders
 FROM Customers
 ORDER BY cust_name --为了避免产生冲突，必须采用完全限定列名。
-● 
+
 11. 联结表
+
 联结表出现from两个表的情况，使用where做链接，也可以用join链接
+```sql
 SELECT vend_name,prod_name,prod_price
 FROM Vendors,Products
 WHERE Vendors.vend_id = Products.vend.id;--如果没有where做联结，则结果满足笛卡尔乘积。
@@ -190,26 +213,37 @@ WHERE Vendors.vend_id = Products.vend.id;--如果没有where做联结，则结�
 SELECT vend_name,prod_name,prod_price
 FROM Vendors
 INNER JOIN Products ON Vendors.vend_id = Products.vend.id;--等值联结也叫内联结(inner join)，可以通过不同的语法明确联结的类型。
-● where后面的过滤语句就可以在两个表中分别选择列；
-● inner join为内连接。
+```
+- where后面的过滤语句就可以在两个表中分别选择列；
+- inner join为内连接。
+
 12. 创建高级联结
+
 在需要从两个表中提取不同的列做下一步运算得时候，可以用高级联结。主要也是用AS来对不同的表命名。
 --自联结
+```sql
 SELECT c1.cust_id,c1.cust_name,c1.cust_contact
 FROM Customers AS c1, Customers AS c2
 WHERE c1.cust_name = c2.cust_name
 AND c2.cust_contact = 'Jim Jones'--别名的好处在于在SELECT语句中可以不止一次引用相同的表。自联结比子查询快得多。
+```
 
 --外联结
 --左外连接关键字是LEFT OUTER JOIN 或LEFT JOIN(还是不建议省略outer，可读性不强)。左外连接查询是以左边的表为基准，去匹配要连接的表，不管是否匹配条件都会以基准表的条数返回结果(这里明显不同于内连接)，匹配到的数据就显示匹配到的数据，没有匹配条件的数据就显示为null。右联结相似。全连接(full join)就是返回目标表的所有数据，有匹配的就显示，没有匹配的就为null。MYSQL里面没有全联结，可以对左外连和右外联做union实现相同的效果。
+```sql
 SELECT td.dept_id,td.dept_name,te.emp_name  
 FROM tb_dept td
 LEFT OUTER JOIN tb_emp te
 ON td.dept_id = te.dept_id ;
-● 左外连接 left outer join。左外链接查询是以左边的表为基准，去匹配要链接的表，不管是否匹配条件都会以基准表的条数返回结果(这里明显不同于内连接)，匹配到的数据就显示匹配到的数据，没有匹配条件的数据就显示为null。
-● 右联结相似。全连接(full join)就是返回目标表的所有数据，有匹配的就显示，没有匹配的就为null。MYSQL里面没有全联结，可以对左外连和右外联做union实现相同的效果。
+```
+
+- 左外连接 left outer join。左外链接查询是以左边的表为基准，去匹配要链接的表，不管是否匹配条件都会以基准表的条数返回结果(这里明显不同于内连接)，匹配到的数据就显示匹配到的数据，没有匹配条件的数据就显示为null。
+- 右联结相似。全连接(full join)就是返回目标表的所有数据，有匹配的就显示，没有匹配的就为null。MYSQL里面没有全联结，可以对左外连和右外联做union实现相同的效果。
+
 13. 组合查询
+
 union将多条select语句组合成一个结果集。
+```sql
 select cust_name,cust_contact,cust_email
 from customers
 where cust_state in ('IL','IN','MI')
@@ -217,78 +251,112 @@ union
 select cust_name,cust_contact,cust_email
 from customers
 where cust_name='Fun4ALL';
+```
+
 上面这段是用两端select语句，通过中间的union连接成一个结果集。
+```sql
 select cust_name,cust_contact,cust_email
 from customers
 where cust_state in ('IL','IN','MI')
 or cust_name='Fun4ALL'
+```
+
 上面由于是从一个表查询，则可不用union，直接使用一个select以及where得到组合查询。
-● 简单查询，union不明显，而复杂过滤，union可以让检索更快捷；
-● union使用规则：
-  ○ 必须有两条或两条以上的select语句组成；
-  ○ union中每个查询必须包含相同的列、表达式和聚合函数。也就是select必须相同；
-  ○ 数据类型必须兼容。
+- 简单查询，union不明显，而复杂过滤，union可以让检索更快捷；
+- union使用规则：
+-- 必须有两条或两条以上的select语句组成；
+-- union中每个查询必须包含相同的列、表达式和聚合函数。也就是select必须相同；
+-- 数据类型必须兼容。
+
 14. 插入数据
+
 关键字insert
-● 插入完成的行
+- 插入完成的行
+```sql
 insert into 表名（表中的列名1，列名2，...，列名n）
 values（每一列对应的内容，内容1，内容2，...，内容n）
-● 插入部分行，和插入完成行语法相同，只是并不要求输入表名的全部列名。
-● 插入检索出的数据
+```
+- 插入部分行，和插入完成行语法相同，只是并不要求输入表名的全部列名。
+- 插入检索出的数据
+```sql
 insert into 被插入表名（被插入表中的列名1，列名2，...，列名n）
 select 选择插入的表的列名1，列名2，...，列名n
 from 选择插入的表
-● 从另一个表赋值到另一个表
+```
+- 从另一个表赋值到另一个表
+```sql
 select * into 表1 from 表2;
-● 在使用select into 时，任何select选项和子句都可以使用包括where和group by；
-● 可利用链接从多个表插入数据；
-● 不管从多少个表中检索数据，数据都只能插入一列；
-● 在插入前记得备份数据。
+```
+
+- 在使用select into 时，任何select选项和子句都可以使用包括where和group by；
+- 可利用链接从多个表插入数据；
+- 不管从多少个表中检索数据，数据都只能插入一列；
+- 在插入前记得备份数据。
+
 15. 更新和删除数据
-● update 更新：更新表中特定行，以及所有行。
+- update 更新：更新表中特定行，以及所有行。
+```sql
 update 表1
 set 列名1=内容1
 列名2=内容2
 where 列名3=内容3；
-● delect 删除：删除表中的特定行，使用where；删除所有行。
+```
+
+- delect 删除：删除表中的特定行，使用where；删除所有行。
+```sql
 delete from 表1
 where 列名1=内容1
-● 除非确定更新和删除每一行，否则使用语句的时候一定要加上where！
-● 保证每个表都有主键，使用where和主键配合，确定更新删除的范围
-● 在使用更新和删除前，先用select看看选定的是不是要更新删除的内容。
-● 使用强制实施引用完整数据库，，DBMS将不允许删除取数据与其他表相关联的行
-● 要注意有没有存在撤销按钮，以防止更新删除错误
-● 更新删除前记得备份数据
+···
+- 除非确定更新和删除每一行，否则使用语句的时候一定要加上where！
+- 保证每个表都有主键，使用where和主键配合，确定更新删除的范围
+- 在使用更新和删除前，先用select看看选定的是不是要更新删除的内容。
+- 使用强制实施引用完整数据库，，DBMS将不允许删除取数据与其他表相关联的行
+- 要注意有没有存在撤销按钮，以防止更新删除错误
+- 更新删除前记得备份数据
+
 16. 创建和操纵表
-● 创建表：
-  ○ 交互式创建和管理数据库表的工具
-  ○ 表可以直接只用SQL语句进行操纵
+- 创建表：
+-- 交互式创建和管理数据库表的工具
+-- 表可以直接只用SQL语句进行操纵
+···sql
 create table 表名1 (列名1 数据类型, 列名2 数据类型, ...)
-● 更新表：
+```
+- 更新表：
+```sql
 alter table 表名1 
 add 列名1 数据格式 
-● 删除表：
+```
+- 删除表：
+```sql
 drop table 表名1
-● 重命名表：
+```
+- 重命名表：
+
 17. 使用视图
+
 虚拟的表，使用时动态检索数据
-● 视图的规则：
-  ○ 视图名字必须唯一，不能和别的视图和表重名。
-  ○ 创建视图数目没有限制
-  ○ 视图可以嵌套
+- 视图的规则：
+-- 视图名字必须唯一，不能和别的视图和表重名。
+-- 创建视图数目没有限制
+-- 视图可以嵌套
+```sql
 create view PC as
 select cust_name,cust_contact,prod_id
 from customers,orders,orderitems
 where customers.cust_id=orders.cust_id
 and orderitems.order_num=orders.order_num;
-● 视图重新格式化检索数据
-  ○ 在视图里连接两个列
-  ○ 在视图里过滤数据，比如空值异常值
-  ○ 在视图中计算字段
+```
+
+- 视图重新格式化检索数据
+-- 在视图里连接两个列
+-- 在视图里过滤数据，比如空值异常值
+-- 在视图中计算字段
+
 18. 使用存储过程
+
 存储的用途：
-● 将语句封装，简化操作
-● 不要求反复建立一些过程，所有的人员和程序使用相同的过程——代码
-● 简化变动的管理。比如表名，列名变化，只需要修改存储过程的代码
-● 存储过程中通常以编译过的形式存储，所以工作量减少
-● 存在一些只能用在单个请求的元素和特性
+- 将语句封装，简化操作
+- 不要求反复建立一些过程，所有的人员和程序使用相同的过程——代码
+- 简化变动的管理。比如表名，列名变化，只需要修改存储过程的代码
+- 存储过程中通常以编译过的形式存储，所以工作量减少
+- 存在一些只能用在单个请求的元素和特性
