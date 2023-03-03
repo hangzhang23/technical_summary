@@ -127,6 +127,7 @@ SELECT 列，列，列*列 AS 列 FROM 表 WHERE 列 = 值; --AS的列是计算�
 8. 使用函数处理数据
 
 SQL自带的一部分函数，可在任何需要进行函数操作的地方使用。
+
 ```sql
 SELECT 列,UPPER(列) AS 列 FROM 表;--处理文本
 SELECT 列 FROM 表 WHERE YEAR(列) = 2020;--指定时间
