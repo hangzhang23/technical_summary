@@ -116,7 +116,7 @@ _	仅代替一个字符
 
 字段这个词也是在SQL中出现，用以指代列，所以计算字段其实就是列计算，而这一步出现在select部分。根据数据库不同，可用+（access，SQL server），||（DB2，Oracle，SQLlite，PostgreSQL，Open Office Base）或者concat（MySQL和MariaDB）来进行字段拼接。
 
-``sql
+```sql
 SELECT 列 + '(' 列 + ')' FROM 表; --返回列(列)，+可以用||代替。
 SELECT Concat(列,'(', 列 , ')') FROM 表; --Mysql是这样的。这样和上面会填充空格。
 SELECT RTRIM(列) + '(' RTRUM(列) + ')' FROM 表; -- 这样才会正确返回格式化数据。RTRIM()函数会取掉右边所有的空格。TRIM(),LTRIM()。
