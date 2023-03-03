@@ -228,7 +228,7 @@ INNER JOIN Products ON Vendors.vend_id = Products.vend.id;--等值联结也叫�
 12. 创建高级联结
 
 在需要从两个表中提取不同的列做下一步运算得时候，可以用高级联结。主要也是用AS来对不同的表命名。
---自联结
+- 自联结
 
 ```sql
 SELECT c1.cust_id,c1.cust_name,c1.cust_contact
@@ -237,8 +237,8 @@ WHERE c1.cust_name = c2.cust_name
 AND c2.cust_contact = 'Jim Jones'--别名的好处在于在SELECT语句中可以不止一次引用相同的表。自联结比子查询快得多。
 ```
 
---外联结
---左外连接关键字是LEFT OUTER JOIN 或LEFT JOIN(还是不建议省略outer，可读性不强)。左外连接查询是以左边的表为基准，去匹配要连接的表，不管是否匹配条件都会以基准表的条数返回结果(这里明显不同于内连接)，匹配到的数据就显示匹配到的数据，没有匹配条件的数据就显示为null。右联结相似。全连接(full join)就是返回目标表的所有数据，有匹配的就显示，没有匹配的就为null。MYSQL里面没有全联结，可以对左外连和右外联做union实现相同的效果。
+- 外联结
+ - 左外连接关键字是LEFT OUTER JOIN 或LEFT JOIN(还是不建议省略outer，可读性不强)。左外连接查询是以左边的表为基准，去匹配要连接的表，不管是否匹配条件都会以基准表的条数返回结果(这里明显不同于内连接)，匹配到的数据就显示匹配到的数据，没有匹配条件的数据就显示为null。右联结相似。全连接(full join)就是返回目标表的所有数据，有匹配的就显示，没有匹配的就为null。MYSQL里面没有全联结，可以对左外连和右外联做union实现相同的效果。
 
 ```sql
 SELECT td.dept_id,td.dept_name,te.emp_name  
