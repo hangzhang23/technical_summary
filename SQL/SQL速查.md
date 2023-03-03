@@ -73,17 +73,26 @@ select 列, 列, 列 from 表 where 列 != 值;
 !>	不大于
 between 值 and 值	在两个值之间
 is null	为null值
+
 5. 高级过滤数据
+
 对where语句的复合操作，算是个多条件过滤
+```sql
 SELECT 列，列 FROM 表 WHERE 列 = 值 AND 表 <= 值;
 SELECT 列，列 FROM 表 WHERE (列 = 值 OR 表 <= 值) AND 列 >= 值; 
 SELECT 列，列 FROM 表 WHERE 列 IN (值，值); 
 SELECT 列，列 FROM 表 WHERE NOT 列 = 值;
+```
+
 注：
-● where后面可用and，or，和符号组合多条件，但是and优先级高于or，在需要or先运算得时候，需要辅助括号；
-● 在等于多个值中，可以用“col=值 or col =值”，但是用“col in (值，值)”速度更快；
+- where后面可用and，or，和符号组合多条件，但是and优先级高于or，在需要or先运算得时候，需要辅助括号；
+- 在等于多个值中，可以用“col=值 or col =值”，但是用“col in (值，值)”速度更快；
+
 6. 用通配符进行过滤
+
 仍然是过滤操作，但使用like可以进行模糊过滤
+
+```sql
 SELECT 列,列 FROM 表 WHERE 列 LIKE 'Fish%'; -- 选取Fish开头的
 SELECT 列,列 FROM 表 WHERE 列 LIKE '%Fish%'; -- 选取含有Fish的
 SELECT 列,列 FROM 表 WHERE 列 LIKE 'F%y';
@@ -92,7 +101,10 @@ SELECT 列,列 FROM 表 WHERE 列 LIKE '% inch teddy bear'; --同上效果一样
 SELECT 列,列 FROM 表 WHERE 列 LIKE '[JM]%'; --开头是J或者M,^表示否定。
 SELECT 列,列 FROM 表 WHERE 列 LIKE '[^JM]%'; --可以用NOT代替。
 SELECT 列,列 FROM 表 WHERE NOT 列 LIKE '[JM]%'; --同上效果一样。
-● __是匹配两个字符，_匹配一个，使用%可以都包含
+```
+
+- __是匹配两个字符，_匹配一个，使用%可以都包含
+
 通配符	说明
 %	代表零个或者多个字符
 _	仅代替一个字符
