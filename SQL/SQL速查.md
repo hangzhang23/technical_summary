@@ -29,26 +29,38 @@ select 列 from 表 limit 值 offset 值;
 ```
 
 注：
-● select * 表示选择所有数据
-● distince col 表示只返回不同的行，相同则选一个。
-● 在 from 表后面加limit 是限制选择的个数；
-● offset 表示从哪一行开始
+- select * 表示选择所有数据
+- distince col 表示只返回不同的行，相同则选一个。
+- 在 from 表后面加limit 是限制选择的个数；
+- offset 表示从哪一行开始
+
 3. 排序检索数据
+
 在检索选择数据时可以添加的排序操作，跟在from后面，表示以order by指示的列进行排序。
+```sql
 select 列 from 表 order by 列;
 select 列, 列, 列 from 表 order by 列, 列;
 select 列, 列, 列 from 表 order by 值，值;
 select 列, 列, 列 from 表 order by 列 desc, 列;
+```
+
 注：
-● 在不注明列为desc时，都是升序排列，可用“列 desc”来指定排序；
-● 当order by后面出现两个列时，按照先后顺序；
-● 如果order by跟的是值，那么就是列所在的位置，比如“学生”所在的为3列。
+- 在不注明列为desc时，都是升序排列，可用“列 desc”来指定排序；
+- 当order by后面出现两个列时，按照先后顺序；
+- 如果order by跟的是值，那么就是列所在的位置，比如“学生”所在的为3列。
+
 4. 过滤数据
+
 SQL语句中，可以用where触发过滤操作。
+```sql
 select 列, 列, 列 from 表 where 列 != 值;
+```
+
 注：
-● 如果有order by则需要放在where之后；
-● 当过滤选择不包含某值的所有行，不会返回null值得行；
+- 如果有order by则需要放在where之后；
+- 当过滤选择不包含某值的所有行，不会返回null值得行；
+
+
 操作符	说明
 =	等于
 <>	不等于
